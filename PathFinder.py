@@ -4,6 +4,7 @@ from StrToCoords import get_coordinates
 
 def get_path(startPoint: str, endPoint: str):
     startPoint, endPoint = get_coordinates(startPoint), get_coordinates(endPoint)
+    # print(startPoint, endPoint)
     if not startPoint:
         print(f'I couldn\'t get coords for the {startPoint}, sorry')
     elif not endPoint:
@@ -12,18 +13,18 @@ def get_path(startPoint: str, endPoint: str):
     url = "https://graphhopper.com/api/1/route"
     # API IS FREE, check - https://graphhopper.com/dashboard/#/apikeys
     query = {
-        "key": "YOUR API KEY"
+        "key": "your-key"
     }
 
     payload = {
         "points": [
             [
-                startPoint[0],
-                startPoint[1]
+                startPoint[1],
+                startPoint[0]
             ],
             [
-                endPoint[0],
-                endPoint[1]
+                endPoint[1],
+                endPoint[0]
             ]
         ],
         "vehicle": "car",
@@ -32,6 +33,7 @@ def get_path(startPoint: str, endPoint: str):
         "calc_points": True,
         "points_encoded": False
     }
+    # print(payload)
 
     headers = {"Content-Type": "application/json"}
 

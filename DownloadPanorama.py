@@ -23,10 +23,17 @@ class Tile:
 
 
 def get_width_and_height_from_zoom(zoom: int) -> Tuple[int, int]:
+    """
+    Returns the width and height of a panorama at a given zoom level, depends on the
+    zoom level.
+    """
     return 2**zoom, 2 ** (zoom - 1)
 
 
 def make_download_url(pano_id: str, zoom: int, x: int, y: int) -> str:
+    """
+    Returns the URL to download a tile.
+    """
     return (
         "https://cbk0.google.com/cbk"
         f"?output=tile&panoid={pano_id}&zoom={zoom}&x={x}&y={y}"
@@ -34,6 +41,9 @@ def make_download_url(pano_id: str, zoom: int, x: int, y: int) -> str:
 
 
 def fetch_panorama_tile(tile_info: TileInfo) -> Image.Image:
+    """
+    Tries to download a tile, returns a PIL Image.
+    """
     while True:
         try:
             response = requests.get(tile_info.fileurl, stream=True)
@@ -46,6 +56,9 @@ def fetch_panorama_tile(tile_info: TileInfo) -> Image.Image:
 
 
 def iter_tile_info(pano_id: str, zoom: int) -> Generator[TileInfo, None, None]:
+    """
+    Generate a list of a panorama's tiles and their position.
+    """
     width, height = get_width_and_height_from_zoom(zoom)
     for x, y in itertools.product(range(width), range(height)):
         yield TileInfo(
@@ -61,7 +74,11 @@ def iter_tiles(pano_id: str, zoom: int) -> Generator[Tile, None, None]:
         yield Tile(x=info.x, y=info.y, image=image)
 
 
-def download_panorama(pano_id: str, zoom: int = 5) -> Image.Image:
+def get_panorama(pano_id: str, zoom: int = 5) -> Image.Image:
+    """
+    Downloads a streetview panorama.
+    """
+
     tile_width = 512
     tile_height = 512
 
