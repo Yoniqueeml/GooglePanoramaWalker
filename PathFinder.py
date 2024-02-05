@@ -13,7 +13,7 @@ def get_path(startPoint: str, endPoint: str):
     url = "https://graphhopper.com/api/1/route"
     # API IS FREE, check - https://graphhopper.com/dashboard/#/apikeys
     query = {
-        "key": "your-key"
+        "key": "your api key"
     }
 
     payload = {
