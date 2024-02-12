@@ -2,12 +2,13 @@ from selenium import webdriver
 import time
 from utils.keyPress import F12
 
-def download_yapanorama(x, y, i=0):
+def download_yapanorama(path, i=0):
+    first_point = path[0]
     with webdriver.Chrome() as browser_driver:
         browser_driver.set_page_load_timeout(8)
-        browser_driver.get(r"file:///D:/PetProjects/panoramaWalker/yandex/main.html")
+        browser_driver.get(r"file:///C:\Users\Altryd\PycharmProjects\GooglePanoramaWalker\yandex\main.html")
         time.sleep(1)
-        js_code = f"""var locateRequest = ymaps.panorama.locate([{x}, {y}]);
+        js_code = f"""var locateRequest = ymaps.panorama.locate([{first_point[1]}, {first_point[0]}]);
                     locateRequest.then(
                       function (panoramas) {{
                         if (panoramas.length) {{
@@ -21,7 +22,7 @@ def download_yapanorama(x, y, i=0):
                         console.log(err);
                       }}
                     );
-                    var player = null;
+                    document.player = null;
                     locateRequest.then(
                       function (panoramas) {{
                         if (panoramas.length) {{
@@ -46,5 +47,11 @@ def download_yapanorama(x, y, i=0):
               }"""
         browser_driver.execute_script(js_expand)
         time.sleep(1)
+        F12()
+        time.sleep(1)
         browser_driver.save_screenshot(f'panorama_screenshot_{i}.png')
-
+        for point in path[1:]:
+            i += 1
+            browser_driver.execute_script(f"document.player.moveTo([{point[1]}, {point[0]}]);")
+            time.sleep(1)
+            browser_driver.save_screenshot(f'panorama_screenshot_{i}.png')

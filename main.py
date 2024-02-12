@@ -22,8 +22,7 @@ def walk_google(startPoint: str, endPoint: str):
 def walk_yandex(startPoint: str, endPoint: str):
     path = get_path(startPoint, endPoint)
     print(path)
-    for i, coordinates in enumerate(path):
-        download_yapanorama(coordinates[1], coordinates[0], i)
+    download_yapanorama(path)
 
 
 import time
